@@ -1,12 +1,12 @@
 import telebot
 from telebot import types
 from config import TOKEN
-from Quiz import Question, Quiz, ANSWER_TYPES, Answer
+from Poll import Question, Poll, ANSWER_TYPES, Answer
 
 class TGBot:
     def __init__(self) -> None:
         self.bot = telebot.TeleBot(TOKEN)
-        self.quiz = Quiz()
+        self.quiz = Poll()
         self.user_id = 0
         self.start = self.bot.message_handler(commands=["start"])(self.start)
         self.callback_worker = self.bot.callback_query_handler(func= lambda call: True)(self.callback_worker)
@@ -19,10 +19,7 @@ class TGBot:
     def callback_worker(self, call):
         callback = Answer.from_str(call.data)
 
-        if callback.ans == ANSWER_TYPES.POSITIVE.value: #call.data это callback_data, которую мы указали при объявлении кнопки
-            pass
-        elif callback.ans == ANSWER_TYPES.NEGATIVE.value:
-            pass
+        self.quiz.receive_answer(callback)
         print(callback.ans)
         self.ask_question(self.quiz.next_question())
         

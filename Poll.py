@@ -38,14 +38,35 @@ class Question:
     def __init__(self, quest : dict) -> None:
         self.__dict__ = quest
 
-class Quiz:
+class Poll:
     def __init__(self) -> None:
         self.quest_index = 0
         data = read_json()
         self.quests = data["quests"]
         self.quests : dict = {quest["order"] : Question(quest) 
                                 for quest in sorted(self.quests, key = lambda quest : quest["order"])}
+        self.rules : dict = self.parse_rules(data["rules"])
     
     def next_question(self)-> Question:
         self.quest_index += 1
+
         return self.quests[self.quest_index]
+    
+    def receive_answer(self, answer : Answer):
+        if answer.ans == ANSWER_TYPES.POSITIVE.value: 
+            print("POSITIVE")
+        elif answer.ans == ANSWER_TYPES.NEGATIVE.value:
+            print("NEGATIVE")
+        
+        if answer.ans.value in self.rules.keys():
+            
+    
+    def parse_rules(self, rules : dict):
+        return {
+            int(key) : {
+                int(k) : int(v) 
+                for k, v in val.items()
+            }
+            for key, val in rules.items()
+        }
+    
