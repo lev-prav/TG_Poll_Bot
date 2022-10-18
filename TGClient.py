@@ -1,6 +1,5 @@
 import telebot
 from telebot import types
-import threading
 from TGBot import TGBot
 
 
@@ -10,10 +9,16 @@ class TGClient:
         
 
     def run(self):
-        thread = threading.Thread(target= lambda : self.__bot.bot.polling(none_stop=True, interval=0))
-        thread.start()
+        #thread = threading.Thread(target= lambda : self.__bot.bot.polling(none_stop=True, interval=0))
+        #thread.start()
 
-        input("PRESS ANY KEY\n")
-        thread.join()
+        #input("PRESS ANY KEY\n")
+        #thread.join()
+
+        print("Let's start")
+        
+        self.__bot.run()
+        
+        print("Goodby")
 
 
