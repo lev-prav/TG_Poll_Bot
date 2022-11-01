@@ -1,3 +1,5 @@
+import asyncio
+from copy import copy
 import enum
 import json
 
@@ -46,7 +48,7 @@ class Poll:
     def __init__(self) -> None:
         self.quest_index = 0
         self.set_data()
-        self.stop_chat = object()
+        self.stop_chat = lambda : print("Implement stop chat handler")
     
     def next_question(self)-> Question:
         self.quest_index += 1
@@ -58,23 +60,37 @@ class Poll:
     
     def receive_answer(self, answer : Answer):
         
+        ans_index : int = 0
         if answer.ans == ANSWER_TYPES.POSITIVE.value: 
             print("POSITIVE")
         elif answer.ans == ANSWER_TYPES.NEGATIVE.value:
+            ans_index = 1
             print("NEGATIVE")
+
+        self.answers[self.quests[self.quest_index].text] = self.quests[self.quest_index].answers[ans_index]
         
         if self.quest_index in self.rules.keys():
             self.quest_index = self.rules[self.quest_index][answer.ans.value] - 1
     
+    def get_answers(self):
+        return list(self.answers)
+    
+
     def set_data(self):
         data = read_json()
+        self.poll_name = data["poll_unique_name"]
         self.quests = data["quests"]
         self.quests : dict = {quest["order"] : Question(quest) 
                                 for quest in sorted(self.quests, key = lambda quest : quest["order"])}
         self.rules : dict = self.parse_rules(data["rules"])
+        self.answers : dict = {
+            quest["text"] : ""
+            for quest in data["quests"]
+        }
     
     def reset(self):
         self.quest_index = 0
+        self.answers = {}
     
     def parse_rules(self, rules : dict):
         return {

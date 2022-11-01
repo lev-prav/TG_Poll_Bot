@@ -1,4 +1,5 @@
 
+import asyncio
 from TGClient import TGClient
 
 client = TGClient()

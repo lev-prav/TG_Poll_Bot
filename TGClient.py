@@ -9,11 +9,6 @@ class TGClient:
         
 
     def run(self):
-        #thread = threading.Thread(target= lambda : self.__bot.bot.polling(none_stop=True, interval=0))
-        #thread.start()
-
-        #input("PRESS ANY KEY\n")
-        #thread.join()
 
         print("Let's start")
         

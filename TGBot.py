@@ -1,5 +1,7 @@
+import asyncio
 import telebot
 from telebot import types
+from BD import DBClient
 from Chat import Chat
 from config import TOKEN
 import threading
@@ -9,7 +11,8 @@ class TGBot:
         self.bot = telebot.TeleBot(TOKEN)
         self.start = self.bot.message_handler(commands=["start"])(self.start)
         self.users = []
-        self.chat = Chat(self.bot)
+        self.db_client = DBClient()
+        self.chat = Chat(self.bot, self.db_client)
 
     
     def start(self, message):
@@ -20,4 +23,5 @@ class TGBot:
         self.chat.start(message.from_user)
     
     def run(self):
+        #asyncio.run(self.db_client.connect())
         self.bot.infinity_polling()
