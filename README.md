@@ -46,11 +46,12 @@ Example
 Here "4" is an order key in the question in questions list. 
 And 
 
-if the answer is positive ("0"):
+    if the answer is positive ("0"):
 
+        you goes to the quest with the key 5,
 
-     you goes to the quest with the key 5,
+    else if answer is negative ("1"): 
 
-else if answer is negative ("1"): 
+        go to the 6 question
 
-    go to the 6 question
+<b>Thats all falks !<b>
