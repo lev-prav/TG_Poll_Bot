@@ -18,7 +18,7 @@ Threre you can see 3 main key's
 2. quests - paste here the list of questions you want to ask (details below)
 3. rules - list of logical rules of your quest (details below)
 
-## What is your Quest~~looks like~~ ?
+## What is your Quest?
 
 { <br>
     "order" : 1, <br>
